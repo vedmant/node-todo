@@ -5,6 +5,11 @@ export default {
         const password = process.env.DB_PASS;
         const database = process.env.DB_DATABASE;
 
-        return `mongodb://${host}/${database}`;
+        let auth = '';
+        if (user && password) {
+            auth = `${user}:${password}@`;
+        }
+
+        return `mongodb://${auth}${host}/${database}`;
     },
 }
