@@ -12,10 +12,12 @@
     "express": "^4.15.4",
     "mongoose": "^4.11.11"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^1.12.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "babel-node index.js --presets es2015,stage-2"
+    "start": "nodemon index.js --exec babel-node --presets es2015,stage-2"
   },
   "author": "",
   "license": "ISC"
