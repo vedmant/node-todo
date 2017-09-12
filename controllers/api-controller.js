@@ -5,17 +5,18 @@ export default function (app) {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: true}));
 
+    app.get('/api/todos/:id([0-9a-f]{24})', (req, res) => {
+        todoModel.findById(req.params.id, (err, todo) => {
+            if (err) throw err;
+            if (todo === null) return res.send('Not found');
+            res.send(todo);
+        });
+    });
+
     app.get('/api/todos/:user', (req, res) => {
         todoModel.find({username: req.params.user}, (err, todos) => {
             if (err) throw err;
             res.send(todos);
-        });
-    });
-
-    app.get('/api/todos/:id', (req, res) => {
-        todoModel.findById(req.params.id, (err, todo) => {
-            if (err) throw err;
-            res.send(todo);
         });
     });
 
@@ -39,13 +40,16 @@ export default function (app) {
             hasAttachment: req.body.hasAttachment,
         }, (err, todo) => {
             if (err) throw err;
+            if (todo === null) return res.send('Not found');
             res.send('Success');
         });
     });
 
     app.delete('/api/todos/:id', (req, res) => {
-        todoModel.findByIdAndRemove(req.params.id, (err) => {
+        todoModel.findByIdAndRemove(req.params.id, (err, todo) => {
             if (err) throw err;
+            if (todo === null) return res.send('Not found');
+            
             res.send('Success');
         });
     });
